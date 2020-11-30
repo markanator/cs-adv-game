@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Escape Hanoi Hilton
+ * By: Mark Ambrocio
+ * 
+ */
+using System;
 using System.Collections.Generic;
 using System.Text;
 

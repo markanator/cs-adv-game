@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Escape Hanoi Hilton
+ * By: Mark Ambrocio
+ * 
+ */
+
+using System;
 using static System.Console;
 
 namespace FinalGame_MarkAmbrocio
@@ -7,6 +13,7 @@ namespace FinalGame_MarkAmbrocio
     {
         static void Main(string[] args)
         {
+            Title = "Escape Hanoi Hilton By: Mark Ambrocio";
             Game newGame = new Game();
             newGame.Run();
 
