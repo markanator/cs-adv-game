@@ -7,7 +7,10 @@ namespace FinalGame_MarkAmbrocio
     {
         static void Main(string[] args)
         {
-            WriteLine("Hello World!");
+            Game newGame = new Game();
+            newGame.Run();
+
+            WriteLine("MAIN:: Press any key to exit.");
             ReadKey(true);
         }
     }
