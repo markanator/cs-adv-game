@@ -6,4 +6,9 @@
     <RootNamespace>FinalGame_MarkAmbrocio</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Figgle" Version="0.4.0" />
+    <PackageReference Include="Pastel" Version="2.1.0" />
+  </ItemGroup>
+
 </Project>

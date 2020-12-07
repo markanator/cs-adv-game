@@ -17,7 +17,9 @@ namespace FinalGame_MarkAmbrocio
             Game newGame = new Game();
             newGame.Run();
 
-            WriteLine("MAIN:: Press any key to exit.");
+
+            Clear();
+            WriteLine("\n\nMAIN:: Press any key to exit.");
             ReadKey(true);
         }
     }
