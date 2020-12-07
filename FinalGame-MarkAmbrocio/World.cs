@@ -217,8 +217,8 @@ namespace FinalGame_MarkAmbrocio
                 GRooms["A5"]
             });
             GRooms["A5"].AddConnectedRooms(new[] {
-                GRooms["A6"],
-                GRooms["A7"]
+                GRooms["A7"],
+                GRooms["A6"]
             });
             GRooms["A6"].AddConnectedRooms(new[] {
                 GRooms["X1"]

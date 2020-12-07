@@ -53,7 +53,7 @@ namespace FinalGame_MarkAmbrocio
                 RoomDescription.Pastel("#ffffff") +
                 $"{RoomActionsTakenText}");
 
-            if (this.RoomTitle != "S1" || this.RoomTitle != "X1" || this.RoomTitle != "Credits")
+            if (RoomTitle != "S1" && RoomTitle != "X1" && RoomTitle != "Credits")
             {
                 // only display if not in rooms: S1,X1 or Credits
                 MainPlayer.DisplayStatBar();
@@ -225,7 +225,7 @@ namespace FinalGame_MarkAmbrocio
                         {
                             MainPlayer.RestoreHealth(moral4);
                         }
-                        RoomDescription += $"\n\nHP++. Morality++. 3 Americans Rescued. ".Pastel(infoDarkYellow);
+                        RoomActionsTakenText = $"\n\nHP++. Morality++. 3 Americans Rescued. ".Pastel(infoDarkYellow);
                     } 
                     else if (ActivePrevRoom != null && ActivePrevRoom.RoomTitle == "B3")
                     {

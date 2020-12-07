@@ -36,7 +36,7 @@ namespace FinalGame_MarkAmbrocio
             HasBossKey = false;
             RegKeyCount = 0;
             POWRescued = 0; // max 6
-            Morality = 5; // max 10
+            Morality = 5; // max 
         }
         
         public void TakeDamage(int damageAmount)
@@ -123,6 +123,7 @@ namespace FinalGame_MarkAmbrocio
 
         public void DisplayStatBar()
         {
+            //WriteLine(Enum.GetName(typeof(KEYTYPE), KEYTYPE.
             string bkey = HasBossKey ? "1" : "0";
             Write("\nStats: ");
             DisplayHealth();
