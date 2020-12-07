@@ -192,12 +192,12 @@ namespace FinalGame_MarkAmbrocio
             GRooms.Add(
                      "Credits",
                      new Room(MainPlayer, "Credits", "Thank you for playing!",
-                     new[] { "1. Play again!" }
+                     new[] { "1. Exit Game" }
                  )
              );
             #endregion
 
-            GRooms["A4"].SetPrevRoom(GRooms["B5"], "b");
+            //GRooms["A4"].SetPrevRoom(GRooms["B5"], "b");
 
             // create connections
             #region CREATING CONNECTIONS

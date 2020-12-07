@@ -16,12 +16,14 @@ namespace FinalGame_MarkAmbrocio
         private string RoomTitle;
         private string RoomDescription;
         private Player MainPlayer;
-        private Room PreviousRoomA;
-        private Room PreviousRoomB;
-        private Room ActivePrevRoom;
         public List<string> RoomOptions = new List<string>();
         public List<Room> ConnectedRoom = new List<Room>();
+        // for Room Actions
         private Random Rando = new Random();
+        private Room ActivePrevRoom;
+        private string ActivePrevChoice;
+        private string RoomActionsTakenText;
+        private bool HasVisited = false;
 
         public Room(Player aPlayer,string title,string desc, string[] inputRoomOptions)
         {
@@ -33,29 +35,6 @@ namespace FinalGame_MarkAmbrocio
                 RoomOptions.Add(R);
             } 
         }
-        //public Room(Room prevRoomA, Player aPlayer, string title, string desc, string[] inputRoomOptions)
-        //{
-        //    PreviousRoomA = prevRoomA;
-        //    MainPlayer = aPlayer;
-        //    RoomTitle = title;
-        //    RoomDescription = desc;
-        //    foreach (string R in inputRoomOptions)
-        //    {
-        //        RoomOptions.Add(R);
-        //    }
-        //}
-        //public Room(Room prevRoomA,Room prevRoomB, Player aPlayer, string title, string desc, string[] inputRoomOptions)
-        //{
-        //    PreviousRoomA = prevRoomA;
-        //    PreviousRoomB = prevRoomB;
-        //    MainPlayer = aPlayer;
-        //    RoomTitle = title;
-        //    RoomDescription = desc;
-        //    foreach (string R in inputRoomOptions)
-        //    {
-        //        RoomOptions.Add(R);
-        //    }
-        //}
 
         public void AddConnectedRooms(Room[] connectedRooms)
         {
@@ -68,12 +47,17 @@ namespace FinalGame_MarkAmbrocio
         public void RenderRoom()
         {
             Clear();
-            RoomActionsManager(); // also holds stats bar
+            RoomActionsManager();
             WriteLine(RoomTitle);
-            WriteLine("\n"+RoomDescription.Pastel("#ffffff")+"\n\n");
+            WriteLine("\n" +
+                RoomDescription.Pastel("#ffffff") +
+                $"{RoomActionsTakenText}");
 
-
-            MainPlayer.DisplayStatBar();
+            if (this.RoomTitle != "S1" || this.RoomTitle != "X1" || this.RoomTitle != "Credits")
+            {
+                // only display if not in rooms: S1,X1 or Credits
+                MainPlayer.DisplayStatBar();
+            }
 
             ConsoleColor prevColor = ForegroundColor;
             ForegroundColor = ConsoleColor.White;
@@ -88,17 +72,6 @@ namespace FinalGame_MarkAmbrocio
             ReadplayerInput();
 
         }
-    
-        public void SetPrevRoom(Room prevRoom, string AorB)
-        {
-            if (AorB.ToLower() == "a")
-            {
-                PreviousRoomA = prevRoom;
-            } else
-            {
-                PreviousRoomB = prevRoom;
-            }
-        }
 
         private void ReadplayerInput()
         {
@@ -111,6 +84,7 @@ namespace FinalGame_MarkAmbrocio
                     // Escape to Main line
                     return;
                 }
+                ConnectedRoom[0].ActivePrevChoice = "1";
                 ConnectedRoom[0].ActivePrevRoom = this;
                 ConnectedRoom[0].RenderRoom();
             } 
@@ -118,16 +92,21 @@ namespace FinalGame_MarkAmbrocio
             {
                 if (ConnectedRoom.Count > 1)
                 {
+                    ConnectedRoom[1].ActivePrevChoice = "2";
                     ConnectedRoom[1].ActivePrevRoom = this;
                     ConnectedRoom[1].RenderRoom();
-                } else
+                }
+                else
                 {
                     // option doesnt exist render room again
+                    HasVisited = true;
                     RenderRoom();
                 }
-            } else
+            }
+            else
             {
                 // rerender current room
+                HasVisited = true;
                 RenderRoom();
             }
         }
@@ -136,6 +115,7 @@ namespace FinalGame_MarkAmbrocio
         {
             //c2a30a
             string infoDarkYellow = "#967e06";
+            string infoDarkRed = "#6b120c";
             switch (RoomTitle)
             {
                 case "A1":
@@ -143,17 +123,81 @@ namespace FinalGame_MarkAmbrocio
                     break;
                 case "A2":
                     MainPlayer.PickupKey(Player.KEYTYPE.REG);
-                    RoomDescription += "\n\nRegular Key++".Pastel(infoDarkYellow);
+                    RoomActionsTakenText = "\n\nRegular Key++".Pastel(infoDarkYellow);
                     break;
                 case "A3":
                     MainPlayer.PickupKey(Player.KEYTYPE.REG);
                     int moral1 = Rando.Next(2, 5);
                     MainPlayer.UpdateMorality(moral1, "sub");
-                    RoomDescription += "\n\nMorality--. 0 Americans Rescued.".Pastel(infoDarkYellow);
+                    RoomActionsTakenText = "\n\nMorality--. 0 Americans Rescued.".Pastel(infoDarkYellow);
                     break;
                 case "A4":
                     MainPlayer.UseKey(Player.KEYTYPE.REG);
                     break;
+                case "A5":
+                    if (ActivePrevChoice == "1")
+                    {
+                        MainPlayer.PickupKey(Player.KEYTYPE.BOSS);
+                        RoomActionsTakenText = "\n\nBoss Key++".Pastel(infoDarkYellow);
+                    }
+                    else if (ActivePrevChoice == "2")
+                    {
+                        RoomActionsTakenText = "\n\nMissed Key".Pastel(infoDarkRed);
+                    }
+                    break;
+                case "A6":
+                    MainPlayer.TakeDamage(10);
+                    break;
+                case "A7":
+                    if (!MainPlayer.HasBossKey)
+                    {
+                        RoomOptions[0] = "1. Unlock Cell Doors (Locked)".Pastel("#2e2c2c");
+                        ConnectedRoom[0] = ConnectedRoom[1];
+                    }
+                    break;
+                case "A8":
+                    int moral2 = Rando.Next(3, 6);
+                    MainPlayer.UpdateMorality(moral2, "sub");
+                    break;
+                case "A12":
+                    if (ActivePrevRoom.RoomTitle == "A8")
+                    {
+                        if (MainPlayer.Morality > 6)
+                        {
+                            ConnectedRoom[1].RenderRoom();
+                        }
+                        else
+                        {
+                            ConnectedRoom[0].RenderRoom();
+                        }
+                    }
+                    else if (ActivePrevRoom.RoomTitle == "A10")
+                    {
+                        if (MainPlayer.POWRescued > 5 || MainPlayer.Morality > 5)
+                        {
+                            ConnectedRoom[1].RenderRoom();
+                        }
+                        else
+                        {
+                            ConnectedRoom[0].RenderRoom();
+                        }
+                    }
+                    break;
+                case "A9":
+                    if (ActivePrevRoom.RoomTitle == "A12")
+                    {
+                        MainPlayer.TakeDamage(10);
+                    }
+                    break;
+                case "A10":
+                    MainPlayer.RescuePOW(5);
+                    int moral3 = Rando.Next(3, 6);
+                    MainPlayer.UpdateMorality(moral3, "sub");
+                    break;
+                case "A11":
+                    break;
+
+                // B SERIES
                 case "B1":
                     MainPlayer.UseKey(Player.KEYTYPE.REG);
                     int dam1 = Rando.Next(1, 3);
@@ -171,15 +215,15 @@ namespace FinalGame_MarkAmbrocio
                 case "B5":
                     if (ActivePrevRoom != null && ActivePrevRoom.RoomTitle == "B4")
                     {
-                        int moral2 = Rando.Next(1, 5);
-                        MainPlayer.UpdateMorality(moral2,"add");
+                        int moral4 = Rando.Next(1, 5);
+                        MainPlayer.UpdateMorality(moral4,"add");
                         if (MainPlayer.PlayerHealth <= 4)
                         {
                             MainPlayer.RestoreHealth(5);
                         }
                         else
                         {
-                            MainPlayer.RestoreHealth(moral2);
+                            MainPlayer.RestoreHealth(moral4);
                         }
                         RoomDescription += $"\n\nHP++. Morality++. 3 Americans Rescued. ".Pastel(infoDarkYellow);
                     } 
@@ -187,8 +231,11 @@ namespace FinalGame_MarkAmbrocio
                     {
                         MainPlayer.RescuePOW(1);
                         MainPlayer.UpdateMorality(3, "add");
-                        RoomDescription += "\n\nOnly 1 Inmate left with you.".Pastel(infoDarkYellow);
+                        RoomActionsTakenText = "\n\nOnly 1 Inmate left with you.".Pastel(infoDarkYellow);
                     }
+                    break;
+                case "B6":
+
                     break;
 
                 default:
