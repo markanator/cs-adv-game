@@ -7,22 +7,22 @@ A2,You manage to find something to pick the lock. It looks promising. You also n
 A3,You don't hear anyone next door on either side but you did find a way to open the door.
 1. Pick Lock and sneak out
 
-A4,You make your way inside and notice a large glowing frame. A large key is held in there. It must be important.\n\nYou hear footsteps nearby...
+A4,You make your way inside and notice a large glowing frame. A large key is held in there. It must be important.You hear footsteps nearby...
 1. Hurry and break the glass to take key,2. ignore the key
 
-A5,The key has the words \"Master Cell Door Control\". Hmmm...\n\n You start to walk around and manage to find two guards on break. You hide and try to listen to what they are saying... \nyou don't speak their language.
+A5,The key has the words \"Master Cell Door Control\". Hmmm... You start to walk around and manage to find two guards on break. You hide and try to listen to what they are saying... you don't speak their language.
 1. Ignore them and enter control room,2. Charge them head on
 
 A6,You failed to see the third guard who quickly filled you with lead.
 1. Continue...
 
-A7,There is a large primitive computer in the room with some numbers on a notepad.\n\nGuards: 103 || Prisoners: 456\n\nYou see an option for a large key to open cell doors and an option to take a key for an escape vehicle.
+A7,There is a large primitive computer in the room with some numbers on a notepad.Guards: 103 || Prisoners: 456You see an option for a large key to open cell doors and an option to take a key for an escape vehicle.
 1. Unlock Cell Doors,2. Take Key for escape vehicle
 
 A8,You sneak your way to the docks. There is a medium sized boat and no one around.
 1. Take the boat and run!
 
-A10,You start to hear sirens go off as the doors to cells start to open. Prisoners begin to riot and attack Atropian Guards. The guards are overwhelmed but they are starting to use guns on your fellow POWs.\n\nYou start to hear large amounts of footsteps coming towards you.
+A10,You start to hear sirens go off as the doors to cells start to open. Prisoners begin to riot and attack Atropian Guards. The guards are overwhelmed but they are starting to use guns on your fellow POWs.You start to hear large amounts of footsteps coming towards you.
 1. Continue...
 
 A12,
@@ -31,7 +31,7 @@ A12,
 A9,After leaving the dock you immediatley start to get shot at by Atropian Guards.
 1. Continue...
 
-A11,You make your way outside only to see total chaos. All the building are on fire and there are prisoner running all around facility.\n\nThe group of prisoners from your holding block point you to a small plane to escape. They can hold off the Atropian troops until the morning.
+A11,You make your way outside only to see total chaos. All the building are on fire and there are prisoner running all around facility.The group of prisoners from your holding block point you to a small plane to escape. They can hold off the Atropian troops until the morning.
 1. Continue.
 
 S1,You escaped! And you freed the remaining inmates but they still need your help.
@@ -52,13 +52,13 @@ B4,You spend a couple of minutes opening the cells. Out of the ten cells there w
 B5,You open the heavy door and peer outside... guards. You notice heavily armored guards in the distance walking your way.
 1. RUN!
 
-B6,You run away from the detention center and make you way to the tallest building. Maybe they have something that can help you escape. But the door is locked...\n\nOut of the corner of your eye you see a guard walking to you..
+B6,You run away from the detention center and make you way to the tallest building. Maybe they have something that can help you escape. But the door is locked...Out of the corner of your eye you see a guard walking to you..
 1. Hide in guard shack and take keys from guard.,2. Break door open with rock.
 
-B7,You attempted to break the door open but were caught by the guard.\n\nMaybe next time, wait it out...
+B7,You attempted to break the door open but were caught by the guard. Maybe next time, wait it out...
 1. Continue..
 
-X1,You were captured and passed out after being brutality beaten.\n\nPOWs need you. Try again ?
+X1,You were captured and passed out after being brutality beaten. POWs need you. Try again ?
 1. Yes this time we will escape!,2. No I like my cell.
 
 Credits,Thank you for playing!

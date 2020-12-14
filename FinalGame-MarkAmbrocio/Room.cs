@@ -55,7 +55,7 @@ namespace FinalGame_MarkAmbrocio
             }
             Clear();
             RoomActionsManager();
-            WriteLine(RoomTitle);
+            //WriteLine(RoomTitle);
             WriteLine("\n" +
                 RoomDescription.Pastel("#ffffff") +
                 $"{RoomActionsTakenText}");
@@ -71,7 +71,7 @@ namespace FinalGame_MarkAmbrocio
             ConsoleColor prevColor = ForegroundColor;
             ForegroundColor = ConsoleColor.White;
 
-            if (RoomTitle != "Credits" || RoomTitle != "A12")
+            if (RoomTitle != "Credits" && RoomTitle != "A12")
             {
                 WriteLine("\n=== Current Options ===");
                 foreach (string rOption in RoomOptions)
@@ -212,10 +212,7 @@ namespace FinalGame_MarkAmbrocio
                     } 
                     break;
                 case "A9":
-                    if (ActivePrevRoom.RoomTitle == "A12")
-                    {
                         MainPlayer.TakeDamage(10);
-                    }
                     break;
                 case "A10":
                     MainPlayer.RescuePOW(5);
