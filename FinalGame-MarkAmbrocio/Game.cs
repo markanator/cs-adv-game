@@ -15,10 +15,12 @@ namespace FinalGame_MarkAmbrocio
     class Game
     {
         private World NewWorld;
+        public bool EndGame;
 
         public Game()
         {
-            NewWorld = new World();
+            EndGame = false;
+            NewWorld = new World(this);
         }
 
         public void Run()
@@ -26,7 +28,17 @@ namespace FinalGame_MarkAmbrocio
             Intro();
 
             // Start Game
-            NewWorld.GRooms["A1"].RenderRoom();
+            while(true)
+            {
+                NewWorld.GRooms["A1"].RenderRoom();
+
+                if (EndGame) break;
+            }
+        }
+
+        public void EndGameFn()
+        {
+            EndGame = true;
         }
 
         private void Intro()

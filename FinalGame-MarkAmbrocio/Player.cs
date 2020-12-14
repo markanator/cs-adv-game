@@ -91,6 +91,7 @@ namespace FinalGame_MarkAmbrocio
             else
             {
                 HasRegDoorKey = false;
+                RegKeyCount = 0;
             }
         }
 
@@ -115,7 +116,11 @@ namespace FinalGame_MarkAmbrocio
             }
 
 
-            if (Morality > 0)
+            if (Morality > 10)
+            {
+                Morality = 10;
+            } 
+            else if (Morality < 0)
             {
                 Morality = 0;
             }

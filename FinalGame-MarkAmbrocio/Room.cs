@@ -24,12 +24,14 @@ namespace FinalGame_MarkAmbrocio
         private string ActivePrevChoice;
         private string RoomActionsTakenText;
         private bool HasVisited = false;
+        private Game CurrentGame;
 
-        public Room(Player aPlayer,string title,string desc, string[] inputRoomOptions)
+        public Room(Player aPlayer,Game aGame,string title,string desc, string[] inputRoomOptions)
         {
             MainPlayer = aPlayer;
             RoomTitle = title;
             RoomDescription = desc;
+            CurrentGame = aGame;
             foreach (string R in inputRoomOptions)
             {
                 RoomOptions.Add(R);
@@ -46,6 +48,11 @@ namespace FinalGame_MarkAmbrocio
         
         public void RenderRoom()
         {
+            if (RoomTitle == "Credits")
+            {
+                CurrentGame.EndGameFn();
+                Clear();
+            }
             Clear();
             RoomActionsManager();
             WriteLine(RoomTitle);
@@ -59,17 +66,22 @@ namespace FinalGame_MarkAmbrocio
                 MainPlayer.DisplayStatBar();
             }
 
+            
+
             ConsoleColor prevColor = ForegroundColor;
             ForegroundColor = ConsoleColor.White;
 
-            WriteLine("\n=== Current Options ===");
-            foreach (string rOption in RoomOptions)
+            if (RoomTitle != "Credits" || RoomTitle != "A12")
             {
-                WriteLine(rOption);
-            }
+                WriteLine("\n=== Current Options ===");
+                foreach (string rOption in RoomOptions)
+                {
+                    WriteLine(rOption);
+                }
 
-            ForegroundColor = prevColor;
-            ReadplayerInput();
+                ForegroundColor = prevColor;
+                ReadplayerInput();
+            }
 
         }
 
@@ -79,14 +91,22 @@ namespace FinalGame_MarkAmbrocio
             string playerChoice = ReadLine().Trim().ToLower();
             if (playerChoice == "1")
             {
-                if (ConnectedRoom.Count == 0)
+                if (ConnectedRoom.Count <= 0 && RoomTitle == "Credits")
                 {
                     // Escape to Main line
-                    return;
+                    CurrentGame.EndGameFn();
+                    //return;
                 }
-                ConnectedRoom[0].ActivePrevChoice = "1";
-                ConnectedRoom[0].ActivePrevRoom = this;
-                ConnectedRoom[0].RenderRoom();
+                else
+                {
+                    ConnectedRoom[0].ActivePrevChoice = "1";
+                    ConnectedRoom[0].ActivePrevRoom = this;
+                    if (ConnectedRoom[0].RoomTitle == "Credits")
+                    {
+                        CurrentGame.EndGame = true;
+                    }
+                    ConnectedRoom[0].RenderRoom();
+                }
             } 
             else if (playerChoice == "2")
             {
@@ -94,6 +114,10 @@ namespace FinalGame_MarkAmbrocio
                 {
                     ConnectedRoom[1].ActivePrevChoice = "2";
                     ConnectedRoom[1].ActivePrevRoom = this;
+                    if (ConnectedRoom[1].RoomTitle == "Credits")
+                    {
+                        CurrentGame.EndGame = true;
+                    }
                     ConnectedRoom[1].RenderRoom();
                 }
                 else
@@ -149,7 +173,7 @@ namespace FinalGame_MarkAmbrocio
                     MainPlayer.TakeDamage(10);
                     break;
                 case "A7":
-                    if (!MainPlayer.HasBossKey)
+                    if (MainPlayer.HasBossKey == false)
                     {
                         RoomOptions[0] = "1. Unlock Cell Doors (Locked)".Pastel("#2e2c2c");
                         ConnectedRoom[0] = ConnectedRoom[1];
@@ -164,10 +188,14 @@ namespace FinalGame_MarkAmbrocio
                     {
                         if (MainPlayer.Morality > 6)
                         {
+                            ConnectedRoom[1].ActivePrevChoice = "2";
+                            ConnectedRoom[1].ActivePrevRoom = this;
                             ConnectedRoom[1].RenderRoom();
                         }
                         else
                         {
+                            ConnectedRoom[0].ActivePrevChoice = "2";
+                            ConnectedRoom[0].ActivePrevRoom = this;
                             ConnectedRoom[0].RenderRoom();
                         }
                     }
@@ -181,7 +209,7 @@ namespace FinalGame_MarkAmbrocio
                         {
                             ConnectedRoom[0].RenderRoom();
                         }
-                    }
+                    } 
                     break;
                 case "A9":
                     if (ActivePrevRoom.RoomTitle == "A12")
@@ -192,7 +220,7 @@ namespace FinalGame_MarkAmbrocio
                 case "A10":
                     MainPlayer.RescuePOW(5);
                     int moral3 = Rando.Next(3, 6);
-                    MainPlayer.UpdateMorality(moral3, "sub");
+                    MainPlayer.UpdateMorality(moral3, "add");
                     break;
                 case "A11":
                     break;
@@ -216,7 +244,7 @@ namespace FinalGame_MarkAmbrocio
                     if (ActivePrevRoom != null && ActivePrevRoom.RoomTitle == "B4")
                     {
                         int moral4 = Rando.Next(1, 5);
-                        MainPlayer.UpdateMorality(moral4,"add");
+                        MainPlayer.UpdateMorality(moral4, "add");
                         if (MainPlayer.PlayerHealth <= 4)
                         {
                             MainPlayer.RestoreHealth(5);
@@ -234,10 +262,13 @@ namespace FinalGame_MarkAmbrocio
                         RoomActionsTakenText = "\n\nOnly 1 Inmate left with you.".Pastel(infoDarkYellow);
                     }
                     break;
-                case "B6":
-
+                case "Credits":
+                    //ConnectedRoom[0] = "";
+                    if (CurrentGame.EndGame == false)
+                    {
+                        CurrentGame.EndGameFn();
+                    }
                     break;
-
                 default:
                     break;
             }

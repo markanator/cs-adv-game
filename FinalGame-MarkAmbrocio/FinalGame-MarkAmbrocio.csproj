@@ -11,4 +11,10 @@
     <PackageReference Include="Pastel" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="FinalGameRooms.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
